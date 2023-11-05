@@ -1,27 +1,40 @@
 [package]
-name = "ctrlc"
-version = "3.4.1"
-authors = ["Antti Keränen <detegr@gmail.com>"]
-description = "Easy Ctrl-C handler for Rust projects"
-documentation = "https://detegr.github.io/doc/ctrlc"
-homepage = "https://github.com/Detegr/rust-ctrlc"
+authors = ["Antti Keränen <detegr@gmail.com>", "@ssrlive"]
+name = "ctrlc2"
+version = "3.5.1"
+description = "Easy Ctrl-C handler version 2 for Rust projects"
+documentation = "https://docs.rs/ctrlc2"
+homepage = "https://github.com/ssrlive/ctrlc2"
 keywords = ["ctrlc", "signal", "SIGINT"]
 categories = ["os"]
 license = "MIT/Apache-2.0"
-repository = "https://github.com/Detegr/rust-ctrlc.git"
+repository = "https://github.com/ssrlive/ctrlc2.git"
 exclude = ["/.travis.yml", "/appveyor.yml"]
-edition = "2018"
+edition = "2021"
 readme = "README.md"
 rust-version = "1.63.0"
 
 [target.'cfg(unix)'.dependencies]
-nix = { version = "0.27", default-features = false, features = ["fs", "signal"]}
+nix = { version = "0.27", default-features = false, features = [
+    "fs",
+    "signal",
+] }
 
 [target.'cfg(windows)'.dependencies]
-windows-sys = { version = "0.48", features = ["Win32_Foundation", "Win32_System_Threading", "Win32_Security", "Win32_System_Console"] }
+windows-sys = { version = "0.48", features = [
+    "Win32_Foundation",
+    "Win32_System_Threading",
+    "Win32_Security",
+    "Win32_System_Console",
+] }
 
 [target.'cfg(windows)'.dev-dependencies]
-windows-sys = { version = "0.48", features = ["Win32_Storage_FileSystem", "Win32_Foundation", "Win32_System_IO", "Win32_System_Console"] }
+windows-sys = { version = "0.48", features = [
+    "Win32_Storage_FileSystem",
+    "Win32_Foundation",
+    "Win32_System_IO",
+    "Win32_System_Console",
+] }
 
 [features]
 termination = []

@@ -19,7 +19,7 @@ use std::sync::{
 fn test_set_handler() {
     let flag = Arc::new(AtomicBool::new(false));
     let flag_handler = Arc::clone(&flag);
-    ctrlc::set_handler(move || {
+    ctrlc2::set_handler(move || {
         flag_handler.store(true, Ordering::SeqCst);
         true
     })
@@ -32,8 +32,8 @@ fn test_set_handler() {
     std::thread::sleep(std::time::Duration::from_millis(100));
     assert!(flag.load(Ordering::SeqCst));
 
-    match ctrlc::set_handler(|| true) {
-        Err(ctrlc::Error::MultipleHandlers) => {}
+    match ctrlc2::set_handler(|| true) {
+        Err(ctrlc2::Error::MultipleHandlers) => {}
         ret => panic!("{:?}", ret),
     }
 }

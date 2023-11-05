@@ -31,7 +31,7 @@
 //!     let running = Arc::new(AtomicBool::new(true));
 //!     let r = running.clone();
 //!
-//!     let handle = ctrlc::set_handler(move || {
+//!     let handle = ctrlc2::set_handler(move || {
 //!         r.store(false, Ordering::SeqCst);
 //!         true
 //!     }).expect("Error setting Ctrl-C handler");
@@ -71,7 +71,7 @@ static INIT_LOCK: Mutex<()> = Mutex::new(());
 ///
 /// # Example
 /// ```no_run
-/// ctrlc::set_handler(|| {println!("Hello world!"); true}).expect("Error setting Ctrl-C handler");
+/// ctrlc2::set_handler(|| {println!("Hello world!"); true}).expect("Error setting Ctrl-C handler");
 /// ```
 ///
 /// # Warning
@@ -80,8 +80,8 @@ static INIT_LOCK: Mutex<()> = Mutex::new(());
 /// handler routines are allowed, but they are called on a last-registered, first-called basis
 /// until the signal is handled.
 ///
-/// ctrlc::try_set_handler will error (on Unix) if another signal handler exists for the same
-/// signal(s) that ctrlc is trying to attach the handler to.
+/// ctrlc2::try_set_handler will error (on Unix) if another signal handler exists for the same
+/// signal(s) that ctrlc2 is trying to attach the handler to.
 ///
 /// On Unix, signal dispositions and signal handlers are inherited by child processes created via
 /// `fork(2)` on, but not by child processes created via `execve(2)`.
@@ -99,7 +99,7 @@ where
     init_and_set_handler(user_handler, true)
 }
 
-/// The same as ctrlc::set_handler but errors if a handler already exists for the signal(s).
+/// The same as ctrlc2::set_handler but errors if a handler already exists for the signal(s).
 ///
 /// # Errors
 /// Will return an error if another handler exists or if a system error occurred while setting the

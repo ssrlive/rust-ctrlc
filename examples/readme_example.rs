@@ -7,13 +7,13 @@
 // notice may not be copied, modified, or distributed except
 // according to those terms.
 
-use ctrlc;
+use ctrlc2;
 use std::sync::mpsc::channel;
 
 fn main() {
     let (tx, rx) = channel();
 
-    let handle = ctrlc::set_handler(move || {
+    let handle = ctrlc2::set_handler(move || {
         tx.send(()).expect("Could not send signal on channel.");
         true
     })

@@ -1,15 +1,17 @@
-# CtrlC
+# CtrlC2
 
-[![Version](https://img.shields.io/crates/v/ctrlc.svg?style=flat)](https://crates.io/crates/ctrlc)
-[![Documentation](https://img.shields.io/badge/docs-release-brightgreen.svg?style=flat)](https://docs.rs/ctrlc)
-[![Download](https://img.shields.io/crates/d/ctrlc.svg)](https://crates.io/crates/ctrlc)
-[![License](https://img.shields.io/crates/l/ctrlc.svg?style=flat)](https://github.com/Detegr/rust-ctrlc/blob/master/LICENSE-MIT)
-[![Build Status](https://travis-ci.org/Detegr/rust-ctrlc.svg?branch=master)](https://travis-ci.org/Detegr/rust-ctrlc)
-[![Build status](https://ci.appveyor.com/api/projects/status/kwg1uu2w2aqn9ta9/branch/master?svg=true)](https://ci.appveyor.com/project/Detegr/rust-ctrlc/branch/master)
+[![Version](https://img.shields.io/crates/v/ctrlc2.svg?style=flat)](https://crates.io/crates/ctrlc2)
+[![Documentation](https://img.shields.io/badge/docs-release-brightgreen.svg?style=flat)](https://docs.rs/ctrlc2)
+[![Download](https://img.shields.io/crates/d/ctrlc2.svg)](https://crates.io/crates/ctrlc2)
+[![License](https://img.shields.io/crates/l/ctrlc2.svg?style=flat)](https://github.com/ssrlive/ctrlc2/blob/master/LICENSE-MIT)
+
+> For [this reason](https://github.com/Detegr/rust-ctrlc/pull/110), I have decided to create a fork of [ctrlc](https://github.com/Detegr/rust-ctrlc) and maintain it.
+> I will try to keep it up to date with the original repo. If you have any suggestions or want to contribute, please open an issue or a PR. Thanks!
+> I will respond to issues and PRs as soon as possible.
 
 A simple easy to use wrapper around Ctrl-C signal.
 
-[Documentation](http://detegr.github.io/doc/ctrlc/)
+[Documentation](https://docs.rs/ctrlc2/)
 
 ## Example usage
 
@@ -17,19 +19,19 @@ In `cargo.toml`:
 
 ```toml
 [dependencies]
-ctrlc = "3.4"
+ctrlc2 = "3.5"
 ```
 
 then, in `main.rs`
 
 ```rust
 use std::sync::mpsc::channel;
-use ctrlc;
+use ctrlc2;
 
 fn main() {
     let (tx, rx) = channel();
     
-    let handle = ctrlc::set_handler(move || {tx.send(()).expect("Could not send signal on channel."); true})
+    let handle = ctrlc2::set_handler(move || {tx.send(()).expect("Could not send signal on channel."); true})
         .expect("Error setting Ctrl-C handler");
     
     println!("Waiting for Ctrl-C...");
