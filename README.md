@@ -37,7 +37,7 @@ fn main() {
     println!("Waiting for Ctrl-C...");
     rx.recv().expect("Could not receive from channel.");
     println!("Got it! Exiting..."); 
-    handle.join().unwarp();
+    handle.join().unwrap();
 }
 ```
 
