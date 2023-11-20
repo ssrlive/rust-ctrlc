@@ -155,3 +155,44 @@ where
 
     Ok(builder)
 }
+
+/// Register signal handler in tokio runtime for Ctrl-C.
+#[cfg(feature = "tokio")]
+pub async fn set_async_handler<F>(user_handler: F) -> tokio::task::JoinHandle<()>
+where
+    F: std::future::Future<Output = ()> + 'static + Send,
+{
+    tokio::spawn(async move {
+        let block = async move {
+            #[cfg(unix)]
+            {
+                #[cfg(not(feature = "termination"))]
+                tokio::signal::ctrl_c().await?;
+
+                #[cfg(feature = "termination")]
+                {
+                    use tokio::signal::unix::{signal, SignalKind};
+                    let mut kill_signal = signal(SignalKind::terminate())?;
+                    let mut int_signal = signal(SignalKind::interrupt())?;
+                    let mut hup_signal = signal(SignalKind::hangup())?;
+                    tokio::select! {
+                        _ = tokio::signal::ctrl_c() => {},
+                        _ = kill_signal.recv() => {},
+                        _ = int_signal.recv() => {},
+                        _ = hup_signal.recv() => {}
+                    }
+                }
+            }
+
+            #[cfg(windows)]
+            tokio::signal::ctrl_c().await?;
+
+            user_handler.await;
+
+            Ok::<(), std::io::Error>(())
+        };
+        if let Err(err) = block.await {
+            eprintln!("Critical system error while waiting for Ctrl-C: {}", err);
+        }
+    })
+}

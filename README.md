@@ -41,6 +41,31 @@ fn main() {
 }
 ```
 
+### Asynchronous support
+
+This library now supports asynchronous operation using either the tokio runtimes.
+
+Selecting the tokio is done using feature flags (e.g. --no-default-features --features tokio)
+
+```rust
+#[cfg(feature = "tokio")]
+#[cfg_attr(feature = "tokio", tokio::main(flavor = "current_thread"))]
+async fn main() {
+    let (tx, mut rx) = tokio::sync::mpsc::channel::<()>(1);
+
+    ctrlc2::set_async_handler(async move {
+        tx.send(())
+            .await
+            .expect("Could not send signal on channel.");
+    })
+    .await;
+
+    println!("Waiting for Ctrl-C...");
+    rx.recv().await.expect("Could not receive from channel.");
+    println!("Got it! Exiting...");
+}
+```
+
 #### Try the example yourself
 `cargo build --examples && target/debug/examples/readme_example`
 
