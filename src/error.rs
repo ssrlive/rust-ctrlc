@@ -22,6 +22,15 @@ impl Error {
     }
 }
 
+impl From<Error> for std::io::Error {
+    fn from(e: Error) -> std::io::Error {
+        match e {
+            Error::System(e) => e,
+            _ => std::io::Error::new(std::io::ErrorKind::Other, e),
+        }
+    }
+}
+
 impl From<platform::Error> for Error {
     fn from(e: platform::Error) -> Error {
         #[cfg(not(windows))]
