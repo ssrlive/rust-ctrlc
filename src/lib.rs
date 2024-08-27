@@ -132,14 +132,7 @@ fn set_handler_inner<F>(mut user_handler: F, overwrite: bool) -> Result<JoinHand
 where
     F: FnMut() -> bool + 'static + Send,
 {
-    unsafe {
-        match platform::init_os_handler(overwrite) {
-            Ok(_) => {}
-            Err(err) => {
-                return Err(err.into());
-            }
-        }
-    }
+    unsafe { platform::init_os_handler(overwrite)? };
 
     let builder = thread::Builder::new()
         .name("ctrl-c".into())
@@ -151,7 +144,7 @@ where
                 break;
             }
         })
-        .expect("failed to spawn thread");
+        .map_err(Error::System)?;
 
     Ok(builder)
 }
