@@ -48,7 +48,7 @@
 //! the handler specified by `set_handler()` will be executed for `SIGINT`, `SIGTERM` and `SIGHUP`.
 //!
 
-#[macro_use]
+#![macro_use]
 
 mod error;
 mod platform;
